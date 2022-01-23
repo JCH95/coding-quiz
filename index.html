@@ -7,10 +7,13 @@
         <link rel="stylesheet" href="./assets/css/style.css" />
         <title>Coding Quiz!</title>
     </head> 
+
     <body>
-       <div class="wrap">
+        <div class="time">Time Remaining: <span id="time">0</span></div>
+
+        <div class="wrap">
            <!-- Start Screen menu -->
-           <div class="start" id="begin-screen">
+            <div class="start" id="begin-screen">
                 <h1>Coding Quiz!</h1>
                 <p>
                     The following quiz contains questions about coding topics.
@@ -21,27 +24,27 @@
                     Good luck!
                 </p>
                 <button id="begin">Begin!</button>
-           </div>
+            </div>
 
            <!-- Dynamic div for questions from script.js -->
-           <div class="hide" id="questions">
+            <div class="hide" id="questions">
                <h1 id="title"></h1>
                <div class="options" id="options"></div>
-           </div>
+            </div>
 
            <!-- End Screen menu -->
-           <div class="hide" id="finish-screen">
+            <div class="hide" id="finish-screen">
                <h1>You've Reached The End!</h1>
                <p>Here is your final score<span id="final-score"></span>!</p>
-               <p>
+                <p>
                    Enter your initials here: <input type="text" max="3" id="initials" />
                    <button id="submit">Submit!</button>
-               </p>
-           </div>
+                </p>
+            </div>
            
            <!-- Div for area where response on answers will be displayed -->
            <div class="response hide" id="response"></div>
-       </div>
+        </div>
 
         <script src="./assets/js/script.js"></script>
     </body>
