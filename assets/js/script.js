@@ -88,11 +88,11 @@ function optionSelect() {
         response.textContent = "Correct!";
         // Get next question
         questionIndex++;
-        getQuestions();
         // Go to end of quiz when out of questions
         if (questionIndex > 3) {
             finishQuiz();
         }
+        getQuestions();
     } else {
         time -= 20;
         if (time < 0) {
