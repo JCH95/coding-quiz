@@ -9,7 +9,13 @@
     </head> 
 
     <body>
+        <!-- Timer -->
         <div class="time">Time Remaining: <span id="time">0</span></div>
+
+        <!-- Highscores -->
+        <div class="highscore">
+            <button id="scoreBtn">View Highscores!</button>
+        </div>
 
         <div class="wrap">
            <!-- Start Screen menu -->
@@ -28,14 +34,14 @@
 
            <!-- Dynamic div for questions from script.js -->
             <div class="hide" id="questions">
-               <h1 id="title"></h1>
+               <h3 id="question-title"></h3>
                <div class="options" id="options"></div>
             </div>
 
            <!-- End Screen menu -->
-            <div class="hide" id="finish-screen">
-               <h1>You've Reached The End!</h1>
-               <p>Here is your final score<span id="final-score"></span>!</p>
+            <div class="hide" id="finish">
+               <h1>Congratulations, You've Reached The End!</h1>
+               <p>Here is your final score: <span id="final-score"></span>!</p>
                 <p>
                    Enter your initials here: <input type="text" max="3" id="initials" />
                    <button id="submit">Submit!</button>

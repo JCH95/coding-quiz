@@ -22,16 +22,127 @@ var questions = [
     },
 ]
 
-// Variables for DOM Elements
-var questions = document.getElementById("questions");
-var options = document.getElementById("options");
+// Variables for DOM Elements/Timer
+var questionsEl = document.getElementById("questions");
+var optionsEl = document.getElementById("options");
 var timer = document.getElementById("time");
-var initials = document.getElementById("iitials");
+var initialsEl = document.getElementById("initials");
 var response = document.getElementById("response");
 var beginBtn = document.getElementById("begin");
 var submitBtn = document.getElementById("submit");
-
-// Variables for timer
 var time = questions.length *20;
-var currentQuestion = 0;
+var questionIndex = 0;
 var timerId;
+
+// Start Quiz Function
+function beginQuiz() {
+    // Get begin page to hide, and have the questions page appear
+    var beginScreen = document.getElementById("begin-screen");
+    beginScreen.setAttribute("class", "hide");
+    questionsEl.removeAttribute("class");
+
+    // Tell timer to start counting down
+    timerId = setInterval(timerCount, 1000);
+    timer.textContent = time;
+
+    // Call function to get questions
+    getQuestions();
+}
+
+// Get Questions Function
+function getQuestions() {
+    // Get current question
+    var currentQuestion = questions[questionIndex];
+
+    // Get title of each question
+    var titles = document.getElementById("question-title");
+    titles.textContent = currentQuestion.title;
+    optionsEl.innerHTML = "";
+
+    // Create loop for questions and make buttons for each new one
+    currentQuestion.options.forEach(function(option, i) {
+        var optionLoop = document.createElement("button");
+        optionLoop.setAttribute("class", "options");
+        optionLoop.setAttribute("value", option);
+        optionLoop.textContent = i + 1 + ") " + option;
+
+        // Listen for click on option
+        optionLoop.onclick = optionSelect;
+        optionsEl.appendChild(optionLoop);
+    });
+}
+
+// Timer Countdown Function
+function timerCount() {
+    time--;
+    timer.textContent = time;
+    if (time <= 0) {
+        finishQuiz();
+    }
+}
+
+// Option Select Function
+function optionSelect() {
+    // Check if answer was right/wrong first
+    if (this.value == questions[questionIndex].answer) {
+        response.textContent = "Correct!";
+    } else {
+        time -= 20;
+        if (time < 0) {
+            time = 0;
+        }
+        timer.textContent = time;
+        response.textContent = "Wrong!";
+    }
+
+    // Show response briefly
+    response.setAttribute("class", "response");
+    setTimeout(function() {
+        response.setAttribute("class", "response hide");
+    }, 1000);
+
+    // Next question
+    questionIndex++;
+}
+
+// End Quiz Function
+function finishQuiz() {
+    // Hide questions
+    questionsEl.setAttribute("class", "hide");
+    // Stop timer
+    clearInterval(timerId);
+
+    // Display Finish Screen
+    var finishScreen = document.getElementById("finish");
+    finishScreen.removeAttribute("class");
+    var finalScore = document.getElementById("final-score");
+    finalScore.textContent = time;
+}
+
+// Highscore Function
+function saveScore() {
+    // Remove extra spaces
+    var initials = initialsEl.value.trim();
+
+    // Check if initials value was empty or not
+    if (initials !== "") {
+        var highscores = JSON.parse(window.localStorage.getItem("highscore")) || [];
+
+        // Make record an object
+        var newRecord = {
+            score: time,
+            initials: initials,
+        };
+
+        // Save scores
+        highscores.push(newRecord);
+        window.localStorage.setItem("highscores", JSON.stringify(highscores));
+
+        // Display highscore
+        var scoreDisplay = document.getElementById("highscore");
+        scoreDisplay.textContent = "Your best score was" + newRecord + "!";
+    }
+}
+
+submitBtn.onclick = saveScore;
+beginBtn.onclick = beginQuiz;
