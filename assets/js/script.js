@@ -86,6 +86,13 @@ function optionSelect() {
     // Check if answer was right/wrong first
     if (this.value == questions[questionIndex].answer) {
         response.textContent = "Correct!";
+        // Get next question
+        questionIndex++;
+        getQuestions();
+        // Go to end of quiz when out of questions
+        if (questionIndex > 3) {
+            finishQuiz();
+        }
     } else {
         time -= 20;
         if (time < 0) {
@@ -100,9 +107,6 @@ function optionSelect() {
     setTimeout(function() {
         response.setAttribute("class", "response hide");
     }, 1000);
-
-    // Next question
-    questionIndex++;
 }
 
 // End Quiz Function
@@ -139,8 +143,9 @@ function saveScore() {
         window.localStorage.setItem("highscores", JSON.stringify(highscores));
 
         // Display highscore
-        var scoreDisplay = document.getElementById("highscore");
-        scoreDisplay.textContent = "Your best score was" + newRecord + "!";
+        var showScore = document.getElementById("scoreBtn");
+        showScore.textContent = "Your high score is " + time + "!";
+        highscores.appendChild(showScore);
     }
 }
 
